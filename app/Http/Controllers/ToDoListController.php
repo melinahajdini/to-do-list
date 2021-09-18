@@ -9,6 +9,7 @@ use App\Models\ToDo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ToDoListController extends \Illuminate\Routing\Controller
@@ -24,7 +25,6 @@ class ToDoListController extends \Illuminate\Routing\Controller
         $userId = Auth::id();
 
         $todos = ToDo::where('user_id', "=", $userId)->latest()->get();
-
 
         return view('todos.index', ['todos' => $todos]);
     }
@@ -54,7 +54,8 @@ class ToDoListController extends \Illuminate\Routing\Controller
         $todo = ToDo::create($attributions);
 
         $email = $user->email;
-        $when = Carbon::now()->addMinutes(2);
+
+        $when = now()->addMinutes(2);
         Mail::to($email)
             ->later($when, new WelcomeMail());
 
