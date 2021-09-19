@@ -58,13 +58,13 @@ class ToDoListController extends \Illuminate\Routing\Controller
         $when = now()->addMinutes(2);
         Mail::to($email)
             ->later($when, new WelcomeMail());
-
         return redirect('/')->with('todo', $todo);
     }
 
 
     public function destroy($id)
     {
+
 
         $todo = ToDo::findorfail($id);
         $todo->delete();
